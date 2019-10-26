@@ -7,3 +7,5 @@
 [Hướng dẫn cài đặt OpenStack Queens bằng packstack](./docs/packstack_OpenStack_Queens_VNPT_LAB.md)
 
 [Hướng dẫn cài đặt OpenStack Stein bằng packstack](./docs/packstack_OpenStack_Stein.md)
+
+[Hướng dẫn cài đặt OpenStack Train bằng packstack](./docs/packstack_OpenStack_Train.md)
