@@ -23,7 +23,7 @@
 
 ### 1.3. Mô hình
 
-![topology](../images/topology-openstack-stein.png)
+![topology](../images/topology-openstack-train.png)
 
 Lưu ý:
 
