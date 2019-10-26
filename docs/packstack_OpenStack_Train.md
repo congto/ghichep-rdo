@@ -1,4 +1,4 @@
-# Hương dẫn cài đặt OpenStack Stein bằng Packstack trên CENTOS 7.x
+# Hương dẫn cài đặt OpenStack Train bằng Packstack trên CENTOS 7.x
 
 
 ## 1. Các bước chuẩn bị
@@ -18,7 +18,7 @@
 
 - Sử dụng VMware Workstation hoặc KVM để tạo các máy cài đặt OpenStack - trong hướng dẫn này sẽ tạo trên KVM.
 - Distro: CentOS 7.x
-- OpenStack Stein
+- OpenStack Train
 - Công cụ cài đặt: Packstack
 
 ### 1.3. Mô hình
@@ -85,11 +85,11 @@ echo "192.168.80.133   compute2" >> /etc/hosts
 init 6
 ```
   
-- Khai báo repos cho OpenStack Stein
+- Khai báo repos cho OpenStack Train
 
 	```sh
 	yum install -y epel-release
-	yum install -y centos-release-openstack-stein
+	yum install -y centos-release-openstack-train
 	yum update -y
 
 	yum install -y wget crudini  byobu
@@ -97,7 +97,7 @@ init 6
 	yum install -y openstack-packstack
 	```
 
-- Trong stein khi sử dụng packstack để cài có thể gặp lỗi `ERROR : Failed to load plugin from file ssl_001.py`, fix theo hướng dẫn dưới (trong đoạn trên đã cài sẵn các fix rồi nhé)
+- Trong Train khi sử dụng packstack để cài có thể gặp lỗi `ERROR : Failed to load plugin from file ssl_001.py`, fix theo hướng dẫn dưới (trong đoạn trên đã cài sẵn các fix rồi nhé)
 
 	```sh
 	https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
@@ -149,11 +149,11 @@ init 6
 	init 6
 	```
 
-- Khai báo repos cho OpenStack Stein trên node `Compute1`
+- Khai báo repos cho OpenStack Train trên node `Compute1`
 
 	```sh
 	yum install -y epel-release
-	yum install -y centos-release-openstack-stein
+	yum install -y centos-release-openstack-train
 	yum update -y
 
 	yum install -y wget crudini  byobu
@@ -161,7 +161,7 @@ init 6
 	yum install -y openstack-packstack
 	```
   
-- Trong stein khi sử dụng packstack để cài có thể gặp lỗi `ERROR : Failed to load plugin from file ssl_001.py`, fix theo hướng dẫn dưới (trong đoạn trên đã cài sẵn các fix rồi nhé)
+- Trong Train khi sử dụng packstack để cài có thể gặp lỗi `ERROR : Failed to load plugin from file ssl_001.py`, fix theo hướng dẫn dưới (trong đoạn trên đã cài sẵn các fix rồi nhé)
 ```sh
 https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
 ```
@@ -212,11 +212,11 @@ https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
 
 	```
 
-- Khai báo repos cho OpenStack Stein trên node `Compute2`
+- Khai báo repos cho OpenStack Train trên node `Compute2`
 
 	```sh
 	yum install -y epel-release
-	yum install -y centos-release-openstack-stein
+	yum install -y centos-release-openstack-Train
 	yum update -y
 
 	yum install -y wget crudini  byobu
@@ -224,13 +224,13 @@ https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
 	yum install -y openstack-packstack
 	```
 
-- Trong stein khi sử dụng packstack để cài có thể gặp lỗi `ERROR : Failed to load plugin from file ssl_001.py`, fix theo hướng dẫn dưới (trong đoạn trên đã cài sẵn các fix rồi nhé)
+- Trong Train khi sử dụng packstack để cài có thể gặp lỗi `ERROR : Failed to load plugin from file ssl_001.py`, fix theo hướng dẫn dưới (trong đoạn trên đã cài sẵn các fix rồi nhé)
 
 	```sh
 	https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
 	```
 
-### 3. Cài đặt OpenStack Stein
+### 3. Cài đặt OpenStack Train
 #### 3.1. Chuẩn bị file trả lời cho packstack
 - Đứng trên controller để thực hiện các bước sau
 - Gõ lệnh dưới 
