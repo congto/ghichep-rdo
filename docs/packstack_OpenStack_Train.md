@@ -43,9 +43,9 @@ Lưu ý:
 
 - Thiết lập hostname
 
-	```sh
-	hostnamectl set-hostname controller1
-	```
+```sh
+hostnamectl set-hostname controller1
+```
 
 - Thiết lập IP 
 
@@ -260,7 +260,6 @@ https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
     --os-neutron-ml2-tenant-network-types=vxlan \
     --os-controller-host=192.168.80.131 \
     --os-compute-hosts=192.168.80.132,192.168.80.133 \
-    --os-neutron-ovs-tunnel-if=eth1 \
     --provision-demo=n
   ```
 
