@@ -517,13 +517,11 @@ Chuẩn bị mộ máy chủ trên môi trường ảo hóa hoặc vật lý v�
 ## Thực hiện
 
 - Thiết lập hostname 
-
 	```
 	hostnamectl set-hostname openstackaio
 	```
 
 - Thiết lập IP và cấu hình cơ bản
-
 	```
 	echo "Setup IP  eth0"
 	nmcli con modify eth0 ipv4.addresses 192.168.80.125/24
@@ -535,12 +533,12 @@ Chuẩn bị mộ máy chủ trên môi trường ảo hóa hoặc vật lý v�
 	echo "Setup IP  eth1"
 	nmcli con modify eth1 ipv4.addresses 192.168.81.125/24
 	nmcli con modify eth1 ipv4.method manual
-	nmcli con mod eth1 connection.autoconnect yes
+	nmcli con modify eth1 connection.autoconnect yes
 
-	echo "Setup IP  eth3"
-	nmcli con modify eth3 ipv4.addresses 192.168.84.125/24
-	nmcli con modify eth3 ipv4.method manual
-	nmcli con mod eth3 connection.autoconnect yes
+	echo "Setup IP  eth2"
+	nmcli con modify eth2 ipv4.addresses 192.168.84.125/24
+	nmcli con modify eth2 ipv4.method manual
+	nmcli con modify eth2 connection.autoconnect yes
 
 	sudo systemctl disable firewalld
 	sudo systemctl stop firewalld
@@ -558,7 +556,6 @@ Chuẩn bị mộ máy chủ trên môi trường ảo hóa hoặc vật lý v�
 	```
 
 - Khai báo repos cho OpenStack Train
-
 	```
 	yum install -y epel-release
 	yum install -y centos-release-openstack-train
@@ -570,7 +567,6 @@ Chuẩn bị mộ máy chủ trên môi trường ảo hóa hoặc vật lý v�
 	```
 
 - Sử dụng byobu để giữ phiên làm việc
-
 	```
 	byobu
 	```	
