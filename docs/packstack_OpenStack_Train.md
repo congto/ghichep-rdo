@@ -1,4 +1,4 @@
-# Hương dẫn cài đặt OpenStack Train bằng Packstack trên CENTOS 7.x
+# Hướng dẫn cài đặt OpenStack Train bằng Packstack trên CENTOS 7.x
 
 
 ## 1. Các bước chuẩn bị
@@ -501,4 +501,70 @@ https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
 - Cách 2: Sử dụng lệnh dưới để tạo VM.
 
 
-	
+# Hướng dẫn sử dụng packstack để cài đặt OpenStack Train All in one.
+
+## Yêu cầu 
+
+Chuẩn bị mộ máy chủ trên môi trường ảo hóa hoặc vật lý với cấu hình như sau:
+
+- CPU: +04 vCPU
+- RAM: +08 GB
+- Disk: +60 GB
+- eth0: IP 192.168.80.125/24, gateway 192.168.80.1
+- eth1: IP 192.168.81.125/24, không đặt gateway
+- eth1: IP 192.168.84.125/24, không đặt gateway
+
+## Thực hiện
+
+- Thiết lập hostname 
+
+	```
+	hostnamectl set-hostname openstackaio
+	```
+
+- Thiết lập IP và cấu hình cơ bản
+
+	```
+	echo "Setup IP  eth0"
+	nmcli con modify eth0 ipv4.addresses 192.168.80.125/24
+	nmcli con modify eth0 ipv4.gateway 192.168.80.1
+	nmcli con modify eth0 ipv4.dns 8.8.8.8
+	nmcli con modify eth0 ipv4.method manual
+	nmcli con modify eth0 connection.autoconnect yes
+
+	echo "Setup IP  eth1"
+	nmcli con modify eth1 ipv4.addresses 192.168.81.125/24
+	nmcli con modify eth1 ipv4.method manual
+	nmcli con mod eth1 connection.autoconnect yes
+
+	echo "Setup IP  eth3"
+	nmcli con modify eth3 ipv4.addresses 192.168.84.125/24
+	nmcli con modify eth3 ipv4.method manual
+	nmcli con mod eth3 connection.autoconnect yes
+
+	sudo systemctl disable firewalld
+	sudo systemctl stop firewalld
+	sudo systemctl disable NetworkManager
+	sudo systemctl stop NetworkManager
+	sudo systemctl enable network
+	sudo systemctl start network
+
+	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+
+	echo "127.0.0.1   openstackaio localhost" > /etc/hosts
+	echo "192.168.80.125   openstackaio" >> /etc/hosts
+	init 6
+	```
+
+- Khai báo repos cho OpenStack Train
+
+	```
+	yum install -y epel-release
+	yum install -y centos-release-openstack-train
+	yum update -y
+
+	yum install -y wget crudini  byobu
+	yum install -y git python-setuptools
+	yum install -y openstack-packstack
+	```
