@@ -512,7 +512,7 @@ Chuẩn bị mộ máy chủ trên môi trường ảo hóa hoặc vật lý v�
 - Disk: +60 GB
 - eth0: IP `192.168.80.125/24`, gateway 192.168.80.1. Đường kết nối dành cho API.
 - eth1: IP `192.168.81.125/24`, không đặt gateway. Đường kết nối dành cho VM truyền thông với nhau.
-- eth1: IP `192.168.84.125/24`, không đặt gateway. Đường kết nối để VM đi ra ngoài internet và ngước lại.
+- eth2: IP `192.168.84.125/24`, không đặt gateway. Đường kết nối để VM đi ra ngoài internet và ngước lại.
 
 ## Thực hiện
 
@@ -568,4 +568,15 @@ Chuẩn bị mộ máy chủ trên môi trường ảo hóa hoặc vật lý v�
 	yum install -y git python-setuptools
 	yum install -y openstack-packstack
 	```
-	
+
+- Sử dụng byobu để giữ phiên làm việc
+
+	```
+	byobu
+	```	
+
+- Tạo file answer để chuẩn bị cài đặt OpenStack.
+
+```
+
+```
