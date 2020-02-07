@@ -1,4 +1,4 @@
-# Hướng dẫn cài đặt OpenStack Train bằng Packstack trên CENTOS 7.x
+# I. Packstack dành cho mô hình OpenStack multi node.
 
 
 ## 1. Các bước chuẩn bị
@@ -501,7 +501,7 @@ https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
 - Cách 2: Sử dụng lệnh dưới để tạo VM.
 
 
-# Hướng dẫn sử dụng packstack để cài đặt OpenStack Train All in one.
+# II. Packstack dành cho mô hình OpenStack All in one
 
 ## Yêu cầu 
 
@@ -510,9 +510,9 @@ Chuẩn bị mộ máy chủ trên môi trường ảo hóa hoặc vật lý v�
 - CPU: +04 vCPU
 - RAM: +08 GB
 - Disk: +60 GB
-- eth0: IP 192.168.80.125/24, gateway 192.168.80.1
-- eth1: IP 192.168.81.125/24, không đặt gateway
-- eth1: IP 192.168.84.125/24, không đặt gateway
+- eth0: IP `192.168.80.125/24`, gateway 192.168.80.1. Đường kết nối dành cho API.
+- eth1: IP `192.168.81.125/24`, không đặt gateway. Đường kết nối dành cho VM truyền thông với nhau.
+- eth1: IP `192.168.84.125/24`, không đặt gateway. Đường kết nối để VM đi ra ngoài internet và ngước lại.
 
 ## Thực hiện
 
@@ -568,3 +568,4 @@ Chuẩn bị mộ máy chủ trên môi trường ảo hóa hoặc vật lý v�
 	yum install -y git python-setuptools
 	yum install -y openstack-packstack
 	```
+	
