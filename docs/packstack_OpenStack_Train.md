@@ -437,7 +437,7 @@ https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
 - Gắn gateway cho router, bước này cũng cần điền đúng tên của network provider được tạo ở trên, đó là `net-provider`  và  và tên của router là R1.
 
 	```sh
-	openstack router set router --external-gateway net-provider	
+	openstack router set R1 --external-gateway net-provider	
 	```
 
 ##### 4.3 Kiểm tra lại các bước thiết lập về network 
