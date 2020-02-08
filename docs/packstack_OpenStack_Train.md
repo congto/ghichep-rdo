@@ -572,7 +572,32 @@ Chuẩn bị mộ máy chủ trên môi trường ảo hóa hoặc vật lý v�
 	```	
 
 - Tạo file answer để chuẩn bị cài đặt OpenStack.
+	```
+	packstack --gen-answer-file=/root/rdotraloi.txt \
+		--allinone \
+		--default-password=Welcome123 \
+		--os-cinder-install=y \
+		--os-ceilometer-install=n \
+		--os-trove-install=n \
+		--os-ironic-install=n \
+		--os-swift-install=n \
+		--os-panko-install=n \
+		--os-heat-install=n \
+		--os-magnum-install=n \
+		--os-aodh-install=n \
+		--os-neutron-ovs-bridge-mappings=extnet:br-ex \
+		--os-neutron-ovs-bridge-interfaces=br-ex:eth2 \
+		--os-neutron-ovs-bridges-compute=br-ex \
+		--os-neutron-l2-agent=openvswitch \
+		--os-neutron-ml2-type-drivers=vxlan,flat \
+		--os-neutron-ml2-tenant-network-types=vxlan \
+		--provision-demo=n
+	```
+	
+- Nội dung của file trả lời sẽ có dạng như kết quả của lệnh `cat /root/rdotraloi.txt | egrep -v '^#|^$'`
+
+- Tiến hành cài đặt OpenStack
 
 ```
-
+packstack --answer-file rdotraloi.txt
 ```
