@@ -424,76 +424,76 @@ https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
 
 - Tạo router 
 
-	```sh
-	openstack router create R1
-	```
+```sh
+openstack router create R1
+```
 
 - Gắn các private network vào Router, lệnh này ko hiển thị ra kết quả. Lưu ý điền đúng tên subnet private là `sub-net-selfservice` và tên của router là R1.
 
-	```sh 
-	openstack router add subnet R1 sub-net-selfservice
-	```
-	
+```sh 
+openstack router add subnet R1 sub-net-selfservice
+```
+
 - Gắn gateway cho router, bước này cũng cần điền đúng tên của network provider được tạo ở trên, đó là `net-provider`  và  và tên của router là R1.
 
-	```sh
-	openstack router set R1 --external-gateway net-provider	
-	```
+```sh
+openstack router set R1 --external-gateway net-provider	
+```
 
 ##### 4.3 Kiểm tra lại các bước thiết lập về network 
 
 
 - Kiểm tra các agent của router và dhcp trên neutron bằng lệnh `ip netns`. Kết quả là: 
 
-	```sh
-	root@controller1 ~(keystone_admin)]# ip netns
-	qrouter-4b831df7-470e-4be3-8775-56f2de9897cb (id: 2)
-	qdhcp-0daa313c-2ea0-4be2-9d7f-546a2ae45715 (id: 1)
-	qdhcp-4ac074cc-7055-4fb8-a101-aaba14b6cff4 (id: 0)
-	```
+```sh
+root@controller1 ~(keystone_admin)]# ip netns
+qrouter-4b831df7-470e-4be3-8775-56f2de9897cb (id: 2)
+qdhcp-0daa313c-2ea0-4be2-9d7f-546a2ae45715 (id: 1)
+qdhcp-4ac074cc-7055-4fb8-a101-aaba14b6cff4 (id: 0)
+```
 	
 - Kiểm tra các port của router R1
 
-	```sh
-	openstack port list --router R1
-	```
+```sh
+openstack port list --router R1
+```
 
 - Kết quả là: 
 
-	```sh
-	+--------------------------------------+------+-------------------+-------------------------------------------------------------------------------+--------+
-	| ID                                   | Name | MAC Address       | Fixed IP Addresses                                                            | Status |
-	+--------------------------------------+------+-------------------+-------------------------------------------------------------------------------+--------+
-	| c05caaed-5712-426e-8a3f-4e5bf9e5cd7c |      | fa:16:3e:4e:7a:b6 | ip_address='172.199.1.1', subnet_id='952a4b55-b6a5-4359-a758-be676e0a365a'    | ACTIVE |
-	| f21af1b2-b58c-4d12-a5cf-d83623fc6d2c |      | fa:16:3e:51:02:92 | ip_address='192.168.84.219', subnet_id='e8e0a0f5-5df2-42f2-b030-fd063f8ec140' | ACTIVE |
-	+--------------------------------------+------+-------------------+-------------------------------------------------------------------------------+--------+
-	```
+```sh
++--------------------------------------+------+-------------------+-------------------------------------------------------------------------------+--------+
+| ID                                   | Name | MAC Address       | Fixed IP Addresses                                                            | Status |
++--------------------------------------+------+-------------------+-------------------------------------------------------------------------------+--------+
+| c05caaed-5712-426e-8a3f-4e5bf9e5cd7c |      | fa:16:3e:4e:7a:b6 | ip_address='172.199.1.1', subnet_id='952a4b55-b6a5-4359-a758-be676e0a365a'    | ACTIVE |
+| f21af1b2-b58c-4d12-a5cf-d83623fc6d2c |      | fa:16:3e:51:02:92 | ip_address='192.168.84.219', subnet_id='e8e0a0f5-5df2-42f2-b030-fd063f8ec140' | ACTIVE |
++--------------------------------------+------+-------------------+-------------------------------------------------------------------------------+--------+
+```
 
 - Lưu ý trong kết quả lệnh trên, ta sẽ thấy IP thuộc VLAN `192.168.84.0/24` là `192.168.84.219`. Đây chính là IP của router, nếu đứng từ máy bạn có thể ping tới IP này thì chứng tỏ việc thiết lập network đã thành công.
 
-	```sh
-	C:\Users\congto>ping 192.168.84.219
+```sh
+C:\Users\congto>ping 192.168.84.219
 
-	Pinging 192.168.84.219 with 32 bytes of data:
-	Reply from 192.168.84.219: bytes=32 time=17ms TTL=63
-	Reply from 192.168.84.219: bytes=32 time=15ms TTL=63
-	Reply from 192.168.84.219: bytes=32 time=16ms TTL=63
-	Reply from 192.168.84.219: bytes=32 time=15ms TTL=63
+Pinging 192.168.84.219 with 32 bytes of data:
+Reply from 192.168.84.219: bytes=32 time=17ms TTL=63
+Reply from 192.168.84.219: bytes=32 time=15ms TTL=63
+Reply from 192.168.84.219: bytes=32 time=16ms TTL=63
+Reply from 192.168.84.219: bytes=32 time=15ms TTL=63
 
-	Ping statistics for 192.168.84.219:
-			Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
-	Approximate round trip times in milli-seconds:
-			Minimum = 15ms, Maximum = 17ms, Average = 15ms
-	```
+Ping statistics for 192.168.84.219:
+		Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+		Minimum = 15ms, Maximum = 17ms, Average = 15ms
+```
 
 ##### 4.4. Mở các rule về security group
 
 - Thực hiện mở các rule để có thể truy cập từ ngoài vào VM sau khi tạo xong VM ở các bước tiếp theo.
 
-	```sh
-	openstack security group rule create --proto icmp default
-	openstack security group rule create --proto tcp --dst-port 22 default
-	```
+```sh
+openstack security group rule create --proto icmp default
+openstack security group rule create --proto tcp --dst-port 22 default
+```
 
 ##### 4.5. Tạo VM	
 
@@ -517,82 +517,82 @@ Chuẩn bị mộ máy chủ trên môi trường ảo hóa hoặc vật lý v�
 ## Thực hiện
 
 - Thiết lập hostname 
-	```
-	hostnamectl set-hostname openstackaio
-	```
+```
+hostnamectl set-hostname openstackaio
+```
 
 - Thiết lập IP và cấu hình cơ bản
-	```
-	echo "Setup IP  eth0"
-	nmcli con modify eth0 ipv4.addresses 192.168.80.125/24
-	nmcli con modify eth0 ipv4.gateway 192.168.80.1
-	nmcli con modify eth0 ipv4.dns 8.8.8.8
-	nmcli con modify eth0 ipv4.method manual
-	nmcli con modify eth0 connection.autoconnect yes
+```
+echo "Setup IP  eth0"
+nmcli con modify eth0 ipv4.addresses 192.168.80.125/24
+nmcli con modify eth0 ipv4.gateway 192.168.80.1
+nmcli con modify eth0 ipv4.dns 8.8.8.8
+nmcli con modify eth0 ipv4.method manual
+nmcli con modify eth0 connection.autoconnect yes
 
-	echo "Setup IP  eth1"
-	nmcli con modify eth1 ipv4.addresses 192.168.81.125/24
-	nmcli con modify eth1 ipv4.method manual
-	nmcli con modify eth1 connection.autoconnect yes
+echo "Setup IP  eth1"
+nmcli con modify eth1 ipv4.addresses 192.168.81.125/24
+nmcli con modify eth1 ipv4.method manual
+nmcli con modify eth1 connection.autoconnect yes
 
-	echo "Setup IP  eth2"
-	nmcli con modify eth2 ipv4.addresses 192.168.84.125/24
-	nmcli con modify eth2 ipv4.method manual
-	nmcli con modify eth2 connection.autoconnect yes
+echo "Setup IP  eth2"
+nmcli con modify eth2 ipv4.addresses 192.168.84.125/24
+nmcli con modify eth2 ipv4.method manual
+nmcli con modify eth2 connection.autoconnect yes
 
-	sudo systemctl disable firewalld
-	sudo systemctl stop firewalld
-	sudo systemctl disable NetworkManager
-	sudo systemctl stop NetworkManager
-	sudo systemctl enable network
-	sudo systemctl start network
+sudo systemctl disable firewalld
+sudo systemctl stop firewalld
+sudo systemctl disable NetworkManager
+sudo systemctl stop NetworkManager
+sudo systemctl enable network
+sudo systemctl start network
 
-	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
-	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 
-	echo "127.0.0.1   openstackaio localhost" > /etc/hosts
-	echo "192.168.80.125   openstackaio" >> /etc/hosts
-	init 6
-	```
+echo "127.0.0.1   openstackaio localhost" > /etc/hosts
+echo "192.168.80.125   openstackaio" >> /etc/hosts
+init 6
+```
 
 - Khai báo repos cho OpenStack Train
-	```
-	yum install -y epel-release
-	yum install -y centos-release-openstack-train
-	yum update -y
+```
+yum install -y epel-release
+yum install -y centos-release-openstack-train
+yum update -y
 
-	yum install -y wget crudini  byobu
-	yum install -y git python-setuptools
-	yum install -y openstack-packstack
-	```
+yum install -y wget crudini  byobu
+yum install -y git python-setuptools
+yum install -y openstack-packstack
+```
 
 - Sử dụng byobu để giữ phiên làm việc
-	```
-	byobu
-	```	
+```
+byobu
+```	
 
 - Tạo file answer để chuẩn bị cài đặt OpenStack.
-	```
-	packstack --gen-answer-file=/root/rdotraloi.txt \
-		--allinone \
-		--default-password=Welcome123 \
-		--os-cinder-install=y \
-		--os-ceilometer-install=n \
-		--os-trove-install=n \
-		--os-ironic-install=n \
-		--os-swift-install=n \
-		--os-panko-install=n \
-		--os-heat-install=n \
-		--os-magnum-install=n \
-		--os-aodh-install=n \
-		--os-neutron-ovs-bridge-mappings=extnet:br-ex \
-		--os-neutron-ovs-bridge-interfaces=br-ex:eth2 \
-		--os-neutron-ovs-bridges-compute=br-ex \
-		--os-neutron-l2-agent=openvswitch \
-		--os-neutron-ml2-type-drivers=vxlan,flat \
-		--os-neutron-ml2-tenant-network-types=vxlan \
-		--provision-demo=n
-	```
+```
+packstack --gen-answer-file=/root/rdotraloi.txt \
+	--allinone \
+	--default-password=Welcome123 \
+	--os-cinder-install=y \
+	--os-ceilometer-install=n \
+	--os-trove-install=n \
+	--os-ironic-install=n \
+	--os-swift-install=n \
+	--os-panko-install=n \
+	--os-heat-install=n \
+	--os-magnum-install=n \
+	--os-aodh-install=n \
+	--os-neutron-ovs-bridge-mappings=extnet:br-ex \
+	--os-neutron-ovs-bridge-interfaces=br-ex:eth2 \
+	--os-neutron-ovs-bridges-compute=br-ex \
+	--os-neutron-l2-agent=openvswitch \
+	--os-neutron-ml2-type-drivers=vxlan,flat \
+	--os-neutron-ml2-tenant-network-types=vxlan \
+	--provision-demo=n
+```
 	
 - Nội dung của file trả lời sẽ có dạng như kết quả của lệnh `cat /root/rdotraloi.txt | egrep -v '^#|^$'`
 
