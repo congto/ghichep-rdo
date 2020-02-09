@@ -216,7 +216,7 @@ https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
 
 	```sh
 	yum install -y epel-release
-	yum install -y centos-release-openstack-Train
+	yum install -y centos-release-openstack-train
 	yum update -y
 
 	yum install -y wget crudini  byobu
@@ -571,7 +571,8 @@ yum install -y openstack-packstack
 byobu
 ```	
 
-- Tạo file answer để chuẩn bị cài đặt OpenStack.
+- Tạo file answer để chuẩn bị cài đặt OpenStack. Trong file này sử dụng `openvswitch`. 
+
 ```
 packstack --gen-answer-file=/root/rdotraloi.txt \
 	--allinone \
@@ -594,6 +595,9 @@ packstack --gen-answer-file=/root/rdotraloi.txt \
 	--os-neutron-ml2-tenant-network-types=vxlan \
 	--provision-demo=n
 ```
+
+Nếu muốn dùng linuxbridge thì tham khảo lệnh ở link này để tạo file trả lời cho packstack, [Link tại đây](https://gist.github.com/congto/e999aa051a7c59df7fda3ceb54f6b138)
+
 	
 - Nội dung của file trả lời sẽ có dạng như kết quả của lệnh `cat /root/rdotraloi.txt | egrep -v '^#|^$'`
 
