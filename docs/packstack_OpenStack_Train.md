@@ -588,6 +588,7 @@ packstack --gen-answer-file=/root/rdotraloi.txt \
 	--os-neutron-ovs-bridge-mappings=extnet:br-ex \
 	--os-neutron-ovs-bridge-interfaces=br-ex:eth2 \
 	--os-neutron-ovs-bridges-compute=br-ex \
+	--os-neutron-ml2-mechanism-drivers=openvswitch \
 	--os-neutron-l2-agent=openvswitch \
 	--os-neutron-ml2-type-drivers=vxlan,flat \
 	--os-neutron-ml2-tenant-network-types=vxlan \
