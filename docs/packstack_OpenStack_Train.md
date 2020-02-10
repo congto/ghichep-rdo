@@ -596,7 +596,7 @@ packstack --gen-answer-file=/root/rdotraloi.txt \
 	--provision-demo=n
 ```
 
-Nếu muốn dùng linuxbridge thì tham khảo lệnh ở link này để tạo file trả lời cho packstack, [Link tại đây](https://gist.github.com/congto/e999aa051a7c59df7fda3ceb54f6b138)
+Nếu muốn dùng linuxbridge thì tham khảo lệnh ở link này để tạo file trả lời cho packstack, [Link tại đây](https://gist.github.com/congto/e999aa051a7c59df7fda3ceb54f6b138 )
 
 	
 - Nội dung của file trả lời sẽ có dạng như kết quả của lệnh `cat /root/rdotraloi.txt | egrep -v '^#|^$'`
