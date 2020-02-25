@@ -399,7 +399,7 @@ openstack token issue
 
 ### 4. Tạo images, network, subnet, router, mở security group và tạo VM.
 - Bước này có thể tạo bằng GUI hoặc bằng CLI
-- Link truy cập vào web GUI là: 192.168.20.44. Đăng nhập với tài khoản là `admin`, mật khẩu là `Welcome123`
+- Link truy cập vào web GUI là: 192.168.80.131. Đăng nhập với tài khoản là `admin`, mật khẩu là `Welcome123`
 
 #### 4.1. Tạo images
 - Đăng nhập vào node controller1 với quyền root và thực thi các lệnh sau
@@ -426,6 +426,17 @@ openstack image create "cirros" \
 openstack image list
 ```
 
+- Kết quả ta có, lưu ý trường ID để sử dụng cho bước tạo VM ở dưới.
+
+```
+[root@controller1 ~(keystone_admin)]# openstack image list
++--------------------------------------+--------+--------+
+| ID                                   | Name   | Status |
++--------------------------------------+--------+--------+
+| 8cce7578-f888-416e-af42-5461600e8dfe | cirros | active |
++--------------------------------------+--------+--------+
+```
+
 #### 4.2. Tạo network
 
 ##### 4.2.1. Tạo provider network 
@@ -437,6 +448,8 @@ openstack network create  --share --external \
 	--provider-physical-network extnet \
 	--provider-network-type flat net-provider
 ```
+
+
 	
 - Taoh subnet cho provider network
 
@@ -540,9 +553,175 @@ openstack security group rule create --proto tcp --dst-port 22 default
 
 ##### 4.5. Tạo VM	
 
-- Cách 1: Truy cập vào dashboard ở địa chỉ http://192.168.80.131 để tạo VM.
-- Cách 2: Sử dụng lệnh dưới để tạo VM.
+Cách 1: Truy cập vào dashboard ở địa chỉ http://192.168.80.131 để tạo VM.
 
+Cách 2: Sử dụng lệnh dưới để tạo VM.
+
+- Kiểm tra image đang có trên hệ thống bằng lệnh `openstack image list `. Lưu lại ID của image cần sử dụng để tạo VM ở bước tiếp theo. 
+
+```
+[root@controller1 ~(keystone_admin)]# openstack image list
++--------------------------------------+--------+--------+
+| ID                                   | Name   | Status |
++--------------------------------------+--------+--------+
+| 8cce7578-f888-416e-af42-5461600e8dfe | cirros | active |
++--------------------------------------+--------+--------+
+```
+
+- Kiểm tra các network đã khai báo ở trên bằng lệnh `openstack network list`, lưu lại ID của network provider hoặc selfservice để dùng cho bước tạo VM ở dưới.
+
+```
+[root@controller1 ~(keystone_admin)]# openstack network list
++--------------------------------------+-----------------+--------------------------------------+
+| ID                                   | Name            | Subnets                              |
++--------------------------------------+-----------------+--------------------------------------+
+| be4e15bc-9f99-456b-a2f3-f6763915e2f8 | net-selfservice | fa683d3c-e76b-4367-b220-e823adb3667b |
+| e4c17f0c-3827-4cb5-80ce-fbbe8231b797 | net-provider    | 77317fd5-5432-4abd-8bcd-ed28ee81e466 |
++--------------------------------------+-----------------+--------------------------------------+
+```
+
+- Kiểm tra security group đang có trên hệ thống bằng lệnh `openstack security group list`. Ta lưu lại ID của security group để khai báo trong bước tạo máy ảo.
+
+```
+[root@controller1 ~(keystone_admin)]# openstack security group list
++--------------------------------------+---------+------------------------+----------------------------------+------+
+| ID                                   | Name    | Description            | Project                          | Tags |
++--------------------------------------+---------+------------------------+----------------------------------+------+
+| 8223ba89-0ba1-4f44-a9ca-46d281e775e3 | default | Default security group | 81bf2058bac74ce7978f76c609acc1d1 | []   |
++--------------------------------------+---------+------------------------+----------------------------------+------+
+```
+
+- Kiểm tra các gói cấu hình bằng lệnh `openstack flavor list`, kết quả trả về các flavor (gói cấu hình). Lưu lại tên gói cấu hình để sử dụng cho bước tạo VM.
+
+```
+[root@controller1 ~(keystone_admin)]# openstack flavor list
++----+-----------+-------+------+-----------+-------+-----------+
+| ID | Name      |   RAM | Disk | Ephemeral | VCPUs | Is Public |
++----+-----------+-------+------+-----------+-------+-----------+
+| 1  | m1.tiny   |   512 |    1 |         0 |     1 | True      |
+| 2  | m1.small  |  2048 |   20 |         0 |     1 | True      |
+| 3  | m1.medium |  4096 |   40 |         0 |     2 | True      |
+| 4  | m1.large  |  8192 |   80 |         0 |     4 | True      |
+| 5  | m1.xlarge | 16384 |  160 |         0 |     8 | True      |
++----+-----------+-------+------+-----------+-------+-----------+
+```
+
+- Tạo máy ảo theo cú pháp
+
+```
+ openstack server create Ten_may_ao --flavor ten_flavor --image ten_image \
+ 	--nic net-id=ID_cua_network --security-group ID_cua_security_group
+```
+
+Thay các ID và tên ở bước trên, ta tạo máy ảo bằng lệnh dưới: 
+
+```
+openstack server create Provider_VM01 --flavor m1.tiny --image cirros \
+--nic net-id=e4c17f0c-3827-4cb5-80ce-fbbe8231b797  --security-group 8223ba89-0ba1-4f44-a9ca-46d281e775e3
+```
+
+- Ta có kết quả trả về
+
+```
++-------------------------------------+-----------------------------------------------+
+| Field                               | Value                                         |
++-------------------------------------+-----------------------------------------------+
+| OS-DCF:diskConfig                   | MANUAL                                        |
+| OS-EXT-AZ:availability_zone         |                                               |
+| OS-EXT-SRV-ATTR:host                | None                                          |
+| OS-EXT-SRV-ATTR:hypervisor_hostname | None                                          |
+| OS-EXT-SRV-ATTR:instance_name       |                                               |
+| OS-EXT-STS:power_state              | NOSTATE                                       |
+| OS-EXT-STS:task_state               | scheduling                                    |
+| OS-EXT-STS:vm_state                 | building                                      |
+| OS-SRV-USG:launched_at              | None                                          |
+| OS-SRV-USG:terminated_at            | None                                          |
+| accessIPv4                          |                                               |
+| accessIPv6                          |                                               |
+| addresses                           |                                               |
+| adminPass                           | 8jZMuygEF8Vq                                  |
+| config_drive                        |                                               |
+| created                             | 2020-02-25T08:38:47Z                          |
+| flavor                              | m1.tiny (1)                                   |
+| hostId                              |                                               |
+| id                                  | 43074d78-ae03-45d8-8232-fe52e104bc06          |
+| image                               | cirros (8cce7578-f888-416e-af42-5461600e8dfe) |
+| key_name                            | None                                          |
+| name                                | Provider_VM01                                 |
+| progress                            | 0                                             |
+| project_id                          | 81bf2058bac74ce7978f76c609acc1d1              |
+| properties                          |                                               |
+| security_groups                     | name='8223ba89-0ba1-4f44-a9ca-46d281e775e3'   |
+| status                              | BUILD                                         |
+| updated                             | 2020-02-25T08:38:47Z                          |
+| user_id                             | 57918e11cadb495ba8cb86419c649a01              |
+| volumes_attached                    |                                               |
++-------------------------------------+-----------------------------------------------+
+```
+
+- Chờ từ 1-2 phút, ta kiểm tra danh sách các máy ảo bằng lệnh `openstack server list`, kết quả trả về sẽ có dạng như dưới.
+
+```
+[root@controller1 ~(keystone_admin)]# openstack server list
++--------------------------------------+---------------+--------+-----------------------------+--------+---------+
+| ID                                   | Name          | Status | Networks                    | Image  | Flavor  |
++--------------------------------------+---------------+--------+-----------------------------+--------+---------+
+| 43074d78-ae03-45d8-8232-fe52e104bc06 | Provider_VM01 | ACTIVE | net-provider=192.168.84.209 | cirros | m1.tiny |
++--------------------------------------+---------------+--------+-----------------------------+--------+---------+
+```
+
+- Thử ping tới địa chỉ 192.168.84.209, ta có kết quả như bên dưới
+
+```
+[root@controller1 ~(keystone_admin)]# ping 192.168.84.209
+PING 192.168.84.209 (192.168.84.209) 56(84) bytes of data.
+64 bytes from 192.168.84.209: icmp_seq=1 ttl=64 time=14.4 ms
+64 bytes from 192.168.84.209: icmp_seq=2 ttl=64 time=1.36 ms
+^C
+--- 192.168.84.209 ping statistics ---
+2 packets transmitted, 2 received, 0% packet loss, time 1001ms
+rtt min/avg/max/mdev = 1.364/7.906/14.449/6.543 ms
+```
+
+- Đứng tại controller thực hiện lệnh `ssh cirros@192.168.84.209` hoặc dùng tool để ssh tới máy ảo vừa tạo với usename là `cirros` và mật khẩu là gocubgo
+
+```
+ssh cirros@192.168.84.209
+```
+
+- Sau khi đăng nhập vào máy ảo thành công, thực hiện kiểm tra IP và các lệnh ping cơ bản để kiểm tra kết nối, ta có kết quả như sau:
+
+```
+$ ip a
+1: lo: <LOOPBACK,UP,LOWER_UP> mtu 16436 qdisc noqueue
+    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00
+    inet 127.0.0.1/8 scope host lo
+    inet6 ::1/128 scope host
+       valid_lft forever preferred_lft forever
+2: eth0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500 qdisc pfifo_fast qlen 1000
+    link/ether fa:16:3e:98:c1:51 brd ff:ff:ff:ff:ff:ff
+    inet 192.168.84.209/24 brd 192.168.84.255 scope global eth0
+    inet6 fe80::f816:3eff:fe98:c151/64 scope link
+       valid_lft forever preferred_lft forever
+$ ping google.com
+PING google.com (216.58.200.14): 56 data bytes
+64 bytes from 216.58.200.14: seq=0 ttl=51 time=23.550 ms
+64 bytes from 216.58.200.14: seq=1 ttl=51 time=25.105 ms
+^C
+--- google.com ping statistics ---
+2 packets transmitted, 2 packets received, 0% packet loss
+round-trip min/avg/max = 23.550/24.327/25.105 ms
+$ ping 8.8.8.8
+PING 8.8.8.8 (8.8.8.8): 56 data bytes
+64 bytes from 8.8.8.8: seq=0 ttl=51 time=20.923 ms
+64 bytes from 8.8.8.8: seq=1 ttl=51 time=21.044 ms
+64 bytes from 8.8.8.8: seq=2 ttl=51 time=21.095 ms
+^C
+--- 8.8.8.8 ping statistics ---
+3 packets transmitted, 3 packets received, 0% packet loss
+round-trip min/avg/max = 20.923/21.020/21.095 ms
+$
+```
 
 # II. Packstack dành cho mô hình OpenStack All in one
 
