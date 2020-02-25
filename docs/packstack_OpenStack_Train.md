@@ -62,6 +62,10 @@ nmcli con modify eth1 ipv4.addresses 192.168.81.131/24
 nmcli con modify eth1 ipv4.method manual
 nmcli con mod eth1 connection.autoconnect yes
 
+nmcli con modify eth2 ipv4.addresses 192.168.82.131/24
+nmcli con modify eth2 ipv4.method manual
+nmcli con modify eth2 connection.autoconnect yes
+
 echo "Setup IP  eth3"
 nmcli con modify eth3 ipv4.addresses 192.168.84.131/24
 nmcli con modify eth3 ipv4.method manual
@@ -87,79 +91,83 @@ init 6
   
 - Khai báo repos cho OpenStack Train
 
-	```sh
-	yum install -y epel-release
-	yum install -y centos-release-openstack-train
-	yum update -y
+```sh
+yum install -y epel-release
+yum install -y centos-release-openstack-train
+yum update -y
 
-	yum install -y wget crudini  byobu
-	yum install -y git python-setuptools
-	yum install -y openstack-packstack
-	```
+yum install -y wget crudini  byobu
+yum install -y git python-setuptools
+yum install -y openstack-packstack
+```
 
 - Trong Train khi sử dụng packstack để cài có thể gặp lỗi `ERROR : Failed to load plugin from file ssl_001.py`, fix theo hướng dẫn dưới (trong đoạn trên đã cài sẵn các fix rồi nhé)
 
-	```sh
-	https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
-	```
+```sh
+https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
+```
 
 ### 2.2. Các bước chuẩn bị trên trên Compute1
 
 - Thiết lập hostname
 
-	```sh
-	hostnamectl set-hostname compute1
-	```
+```sh
+hostnamectl set-hostname compute1
+```
 
 - Thiết lập IP 
 
-	```sh
-	echo "Setup IP  eth0"
-	nmcli con modify eth0 ipv4.addresses 192.168.80.132/24
-	nmcli con modify eth0 ipv4.gateway 192.168.80.1
-	nmcli con modify eth0 ipv4.dns 8.8.8.8
-	nmcli con modify eth0 ipv4.method manual
-	nmcli con modify eth0 connection.autoconnect yes
+```sh
+echo "Setup IP  eth0"
+nmcli con modify eth0 ipv4.addresses 192.168.80.132/24
+nmcli con modify eth0 ipv4.gateway 192.168.80.1
+nmcli con modify eth0 ipv4.dns 8.8.8.8
+nmcli con modify eth0 ipv4.method manual
+nmcli con modify eth0 connection.autoconnect yes
 
-	echo "Setup IP  eth1"
-	nmcli con modify eth1 ipv4.addresses 192.168.81.132/24
-	nmcli con modify eth1 ipv4.method manual
-	nmcli con mod eth1 connection.autoconnect yes
+echo "Setup IP  eth1"
+nmcli con modify eth1 ipv4.addresses 192.168.81.132/24
+nmcli con modify eth1 ipv4.method manual
+nmcli con mod eth1 connection.autoconnect yes
 
-	echo "Setup IP  eth3"
-	nmcli con modify eth3 ipv4.addresses 192.168.84.132/24
-	nmcli con modify eth3 ipv4.method manual
-	nmcli con mod eth3 connection.autoconnect yes
+nmcli con modify eth2 ipv4.addresses 192.168.82.132/24
+nmcli con modify eth2 ipv4.method manual
+nmcli con modify eth2 connection.autoconnect yes
 
-	sudo systemctl disable firewalld
-	sudo systemctl stop firewalld
-	sudo systemctl disable NetworkManager
-	sudo systemctl stop NetworkManager
-	sudo systemctl enable network
-	sudo systemctl start network
+echo "Setup IP  eth3"
+nmcli con modify eth3 ipv4.addresses 192.168.84.132/24
+nmcli con modify eth3 ipv4.method manual
+nmcli con mod eth3 connection.autoconnect yes
 
-	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
-	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+sudo systemctl disable firewalld
+sudo systemctl stop firewalld
+sudo systemctl disable NetworkManager
+sudo systemctl stop NetworkManager
+sudo systemctl enable network
+sudo systemctl start network
 
-	echo "127.0.0.1   compute1  localhost" > /etc/hosts
-	echo "192.168.80.131   controller1" >> /etc/hosts
-	echo "192.168.80.132   compute1" >> /etc/hosts
-	echo "192.168.80.133   compute2" >> /etc/hosts
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 
-	init 6
-	```
+echo "127.0.0.1   compute1  localhost" > /etc/hosts
+echo "192.168.80.131   controller1" >> /etc/hosts
+echo "192.168.80.132   compute1" >> /etc/hosts
+echo "192.168.80.133   compute2" >> /etc/hosts
+
+init 6
+```
 
 - Khai báo repos cho OpenStack Train trên node `Compute1`
 
-	```sh
-	yum install -y epel-release
-	yum install -y centos-release-openstack-train
-	yum update -y
+```sh
+yum install -y epel-release
+yum install -y centos-release-openstack-train
+yum update -y
 
-	yum install -y wget crudini  byobu
-	yum install -y git python-setuptools
-	yum install -y openstack-packstack
-	```
+yum install -y wget crudini  byobu
+yum install -y git python-setuptools
+yum install -y openstack-packstack
+```
   
 - Trong Train khi sử dụng packstack để cài có thể gặp lỗi `ERROR : Failed to load plugin from file ssl_001.py`, fix theo hướng dẫn dưới (trong đoạn trên đã cài sẵn các fix rồi nhé)
 ```sh
@@ -169,60 +177,66 @@ https://gist.github.com/congto/36116ef868ee8fe2b2e83249710fee16
 ### 2.3. Các bước chuẩn bị trên trên Compute2
 
 - Thiết lập hostname
-  ```sh
-  hostnamectl set-hostname compute2
-  ```
+
+```sh
+hostnamectl set-hostname compute2
+```
 
 - Thiết lập IP 
 
-	```sh
-	echo "Setup IP  eth0"
-	nmcli con modify eth0 ipv4.addresses 192.168.80.133/24
-	nmcli con modify eth0 ipv4.gateway 192.168.80.1
-	nmcli con modify eth0 ipv4.dns 8.8.8.8
-	nmcli con modify eth0 ipv4.method manual
-	nmcli con modify eth0 connection.autoconnect yes
+```sh
+echo "Setup IP  eth0"
+nmcli con modify eth0 ipv4.addresses 192.168.80.133/24
+nmcli con modify eth0 ipv4.gateway 192.168.80.1
+nmcli con modify eth0 ipv4.dns 8.8.8.8
+nmcli con modify eth0 ipv4.method manual
+nmcli con modify eth0 connection.autoconnect yes
 
-	echo "Setup IP  eth1"
-	nmcli con modify eth1 ipv4.addresses 192.168.81.133/24
-	nmcli con modify eth1 ipv4.method manual
-	nmcli con mod eth1 connection.autoconnect yes
+echo "Setup IP  eth1"
+nmcli con modify eth1 ipv4.addresses 192.168.81.133/24
+nmcli con modify eth1 ipv4.method manual
+nmcli con modify eth1 connection.autoconnect yes
 
-	echo "Setup IP  eth3"
-	nmcli con modify eth3 ipv4.addresses 192.168.84.133/24
-	nmcli con modify eth3 ipv4.method manual
-	nmcli con mod eth3 connection.autoconnect yes
 
-	sudo systemctl disable firewalld
-	sudo systemctl stop firewalld
-	sudo systemctl disable NetworkManager
-	sudo systemctl stop NetworkManager
-	sudo systemctl enable network
-	sudo systemctl start network
+nmcli con modify eth2 ipv4.addresses 192.168.82.133/24
+nmcli con modify eth2 ipv4.method manual
+nmcli con modify eth2 connection.autoconnect yes
 
-	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
-	sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
+echo "Setup IP  eth3"
+nmcli con modify eth3 ipv4.addresses 192.168.84.133/24
+nmcli con modify eth3 ipv4.method manual
+nmcli con modify eth3 connection.autoconnect yes
 
-	echo "127.0.0.1   compute2  localhost" > /etc/hosts
-	echo "192.168.80.131   controller1" >> /etc/hosts
-	echo "192.168.80.132   compute1" >> /etc/hosts
-	echo "192.168.80.133   compute2" >> /etc/hosts
+sudo systemctl disable firewalld
+sudo systemctl stop firewalld
+sudo systemctl disable NetworkManager
+sudo systemctl stop NetworkManager
+sudo systemctl enable network
+sudo systemctl start network
 
-	init 6
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/sysconfig/selinux
+sed -i 's/SELINUX=enforcing/SELINUX=disabled/g' /etc/selinux/config
 
-	```
+echo "127.0.0.1   compute2  localhost" > /etc/hosts
+echo "192.168.80.131   controller1" >> /etc/hosts
+echo "192.168.80.132   compute1" >> /etc/hosts
+echo "192.168.80.133   compute2" >> /etc/hosts
+
+init 6
+
+```
 
 - Khai báo repos cho OpenStack Train trên node `Compute2`
 
-	```sh
-	yum install -y epel-release
-	yum install -y centos-release-openstack-train
-	yum update -y
+```sh
+yum install -y epel-release
+yum install -y centos-release-openstack-train
+yum update -y
 
-	yum install -y wget crudini  byobu
-	yum install -y git python-setuptools
-	yum install -y openstack-packstack
-	```
+yum install -y wget crudini  byobu
+yum install -y git python-setuptools
+yum install -y openstack-packstack
+```
 
 - Trong Train khi sử dụng packstack để cài có thể gặp lỗi `ERROR : Failed to load plugin from file ssl_001.py`, fix theo hướng dẫn dưới (trong đoạn trên đã cài sẵn các fix rồi nhé)
 
