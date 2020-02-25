@@ -119,19 +119,19 @@ hostnamectl set-hostname compute1
 - Thiết lập IP 
 
 ```sh
-echo "Setup IP  eth0"
+echo "Setup IP eth0"
 nmcli con modify eth0 ipv4.addresses 192.168.80.132/24
 nmcli con modify eth0 ipv4.gateway 192.168.80.1
 nmcli con modify eth0 ipv4.dns 8.8.8.8
 nmcli con modify eth0 ipv4.method manual
 nmcli con modify eth0 connection.autoconnect yes
 
-echo "Setup IP  eth1"
+echo "Setup IP eth1"
 nmcli con modify eth1 ipv4.addresses 192.168.81.132/24
 nmcli con modify eth1 ipv4.method manual
 nmcli con modify eth1 connection.autoconnect yes
 
-echo "Setup IP  eth2"
+echo "Setup IP eth2"
 nmcli con modify eth2 ipv4.addresses 192.168.82.132/24
 nmcli con modify eth2 ipv4.method manual
 nmcli con modify eth2 connection.autoconnect yes
