@@ -50,24 +50,24 @@ hostnamectl set-hostname controller1
 - Thiết lập IP 
 
 ```sh
-echo "Setup IP  eth0"
+echo "Setup IP eth0"
 nmcli con modify eth0 ipv4.addresses 192.168.80.131/24
 nmcli con modify eth0 ipv4.gateway 192.168.80.1
 nmcli con modify eth0 ipv4.dns 8.8.8.8
 nmcli con modify eth0 ipv4.method manual
 nmcli con modify eth0 connection.autoconnect yes
 
-echo "Setup IP  eth1"
+echo "Setup IP eth1"
 nmcli con modify eth1 ipv4.addresses 192.168.81.131/24
 nmcli con modify eth1 ipv4.method manual
 nmcli con modify eth1 connection.autoconnect yes
 
-echo "Setup IP  eth2"
+echo "Setup IP eth2"
 nmcli con modify eth2 ipv4.addresses 192.168.82.131/24
 nmcli con modify eth2 ipv4.method manual
 nmcli con modify eth2 connection.autoconnect yes
 
-echo "Setup IP  eth3"
+echo "Setup IP eth3"
 nmcli con modify eth3 ipv4.addresses 192.168.84.131/24
 nmcli con modify eth3 ipv4.method manual
 nmcli con mod eth3 connection.autoconnect yes
@@ -187,24 +187,24 @@ hostnamectl set-hostname compute2
 - Thiết lập IP 
 
 ```sh
-echo "Setup IP  eth0"
+echo "Setup IP eth0"
 nmcli con modify eth0 ipv4.addresses 192.168.80.133/24
 nmcli con modify eth0 ipv4.gateway 192.168.80.1
 nmcli con modify eth0 ipv4.dns 8.8.8.8
 nmcli con modify eth0 ipv4.method manual
 nmcli con modify eth0 connection.autoconnect yes
 
-echo "Setup IP  eth1"
+echo "Setup IP eth1"
 nmcli con modify eth1 ipv4.addresses 192.168.81.133/24
 nmcli con modify eth1 ipv4.method manual
 nmcli con modify eth1 connection.autoconnect yes
 
-
+echo "Setup IP eth2"
 nmcli con modify eth2 ipv4.addresses 192.168.82.133/24
 nmcli con modify eth2 ipv4.method manual
 nmcli con modify eth2 connection.autoconnect yes
 
-echo "Setup IP  eth3"
+echo "Setup IP eth3"
 nmcli con modify eth3 ipv4.addresses 192.168.84.133/24
 nmcli con modify eth3 ipv4.method manual
 nmcli con modify eth3 connection.autoconnect yes
