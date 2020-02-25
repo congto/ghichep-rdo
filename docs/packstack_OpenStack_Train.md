@@ -60,8 +60,9 @@ nmcli con modify eth0 connection.autoconnect yes
 echo "Setup IP  eth1"
 nmcli con modify eth1 ipv4.addresses 192.168.81.131/24
 nmcli con modify eth1 ipv4.method manual
-nmcli con mod eth1 connection.autoconnect yes
+nmcli con modify eth1 connection.autoconnect yes
 
+echo "Setup IP  eth2"
 nmcli con modify eth2 ipv4.addresses 192.168.82.131/24
 nmcli con modify eth2 ipv4.method manual
 nmcli con modify eth2 connection.autoconnect yes
@@ -128,16 +129,17 @@ nmcli con modify eth0 connection.autoconnect yes
 echo "Setup IP  eth1"
 nmcli con modify eth1 ipv4.addresses 192.168.81.132/24
 nmcli con modify eth1 ipv4.method manual
-nmcli con mod eth1 connection.autoconnect yes
+nmcli con modify eth1 connection.autoconnect yes
 
+echo "Setup IP  eth2"
 nmcli con modify eth2 ipv4.addresses 192.168.82.132/24
 nmcli con modify eth2 ipv4.method manual
 nmcli con modify eth2 connection.autoconnect yes
 
-echo "Setup IP  eth3"
+echo "Setup IP eth3"
 nmcli con modify eth3 ipv4.addresses 192.168.84.132/24
 nmcli con modify eth3 ipv4.method manual
-nmcli con mod eth3 connection.autoconnect yes
+nmcli con modify eth3 connection.autoconnect yes
 
 sudo systemctl disable firewalld
 sudo systemctl stop firewalld
