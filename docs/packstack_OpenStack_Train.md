@@ -321,29 +321,29 @@ Sau đó mới chạy lệnh `packstack --answer-file rdotraloi.txt`
 
 - Sau khi cài đặt xong, màn hình sẽ hiển thị thông báo như dưới
 
-  ```sh
-	 **** Installation completed successfully ******
+```sh
+ **** Installation completed successfully ******
 
-	Additional information:
-	 * File /root/keystonerc_admin has been created on OpenStack client host 192.168.80.131. To use the command line tools you need to source the file.
-	 * To access the OpenStack Dashboard browse to http://192.168.80.131/dashboard .
-	Please, find your login credentials stored in the keystonerc_admin in your home directory.
-	 * Because of the kernel update the host 192.168.80.131 requires reboot.
-	 * Because of the kernel update the host 192.168.80.133 requires reboot.
-	 * Because of the kernel update the host 192.168.80.132 requires reboot.
-	 * The installation log file is available at: /var/tmp/packstack/20190609-151702-MVmefX/openstack-setup.log
-	 * The generated manifests are available at: /var/tmp/packstack/20190609-151702-MVmefX/manifests
-  ```
+Additional information:
+ * File /root/keystonerc_admin has been created on OpenStack client host 192.168.80.131. To use the command line tools you need to source the file.
+ * To access the OpenStack Dashboard browse to http://192.168.80.131/dashboard .
+Please, find your login credentials stored in the keystonerc_admin in your home directory.
+ * Because of the kernel update the host 192.168.80.131 requires reboot.
+ * Because of the kernel update the host 192.168.80.133 requires reboot.
+ * Because of the kernel update the host 192.168.80.132 requires reboot.
+ * The installation log file is available at: /var/tmp/packstack/20190609-151702-MVmefX/openstack-setup.log
+ * The generated manifests are available at: /var/tmp/packstack/20190609-151702-MVmefX/manifests
+```
 
 - Đứng trên `Controller1` thực hiện lệnh dưới để sửa các cấu hình cần thiết.
 
-	```sh
-	sed -i -e 's/enable_isolated_metadata=False/enable_isolated_metadata=True/g' /etc/neutron/dhcp_agent.ini
+```sh
+sed -i -e 's/enable_isolated_metadata=False/enable_isolated_metadata=True/g' /etc/neutron/dhcp_agent.ini
 
-	ssh -o StrictHostKeyChecking=no root@192.168.80.132 "sed -i -e 's/compute1/192.168.80.132/g' /etc/nova/nova.conf"
+ssh -o StrictHostKeyChecking=no root@192.168.80.132 "sed -i -e 's/compute1/192.168.80.132/g' /etc/nova/nova.conf"
 
-	ssh -o StrictHostKeyChecking=no root@192.168.80.133 "sed -i -e 's/compute2/192.168.80.133/g' /etc/nova/nova.conf"
-	```
+ssh -o StrictHostKeyChecking=no root@192.168.80.133 "sed -i -e 's/compute2/192.168.80.133/g' /etc/nova/nova.conf"
+```
 
 - Tắt Iptables trên cả 03 node 
 
