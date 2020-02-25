@@ -280,8 +280,6 @@ yum install -y openstack-packstack
   ```
 
 
-  
-
 - Thực thi file trả lời vừa tạo ở trên (nếu cần có thể mở ra để chỉnh lại các tham số cần thiết.
 
   ```sh
@@ -291,6 +289,33 @@ yum install -y openstack-packstack
 - Nhập mật khẩu đăng nhập ssh của tài khoản root khi được yêu cầu.
 
 - Chờ để packstack cài đặt xong.
+
+Nếu xuất hiện thông báo lỗi dưới khi chạy lệnh packstack thì thực hiện lệnh sau để fix `yum downgrade -y leatherman`. Tham khảo: https://bugs.launchpad.net/tripleo/+bug/1845274
+
+```
+[root@controller1 ~]# packstack --answer-file rdotraloi.txt
+Welcome to the Packstack setup utility
+
+The installation log file is available at: /var/tmp/packstack/20200225-165221-lPGSAC/openstack-setup.log
+
+Installing:
+Clean Up                                             [ DONE ]
+Discovering ip protocol version                      [ DONE ]
+Setting up ssh keys                                  [ DONE ]
+Preparing servers                                    [ DONE ]
+Pre installing Puppet and discovering hosts' details[ ERROR ]
+
+ERROR : Failed to run remote script, stdout:
+stderr: Warning: Permanently added '192.168.80.131' (ECDSA) to the list of known hosts.
++ trap t ERR
++ facter -p
+facter: error while loading shared libraries: leatherman_curl.so.1.3.0: cannot open shared object file: No such file or directory
+++ t
+++ exit 127
+
+```
+
+Sau đó mới chạy lệnh `packstack --answer-file rdotraloi.txt` 
 
 ####  3.2. Kiểm tra hoạt động của OpenStack sau khi cài 
 
