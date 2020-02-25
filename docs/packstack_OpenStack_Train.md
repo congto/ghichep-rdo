@@ -347,51 +347,53 @@ Sau đó mới chạy lệnh `packstack --answer-file rdotraloi.txt`
 
 - Tắt Iptables trên cả 03 node 
 
-  ```sh 
-	systemctl stop iptables
-	systemctl disable iptables
+```sh 
+systemctl stop iptables
+systemctl disable iptables
 
-	ssh -o StrictHostKeyChecking=no root@192.168.80.132 "systemctl stop iptables"
-	ssh -o StrictHostKeyChecking=no root@192.168.80.132 "systemctl disable iptables"
+ssh -o StrictHostKeyChecking=no root@192.168.80.132 "systemctl stop iptables"
+ssh -o StrictHostKeyChecking=no root@192.168.80.132 "systemctl disable iptables"
 
-	ssh -o StrictHostKeyChecking=no root@192.168.80.133 "systemctl stop iptables"
-	ssh -o StrictHostKeyChecking=no root@192.168.80.133 "systemctl disable iptables"
-	```
-
-    
+ssh -o StrictHostKeyChecking=no root@192.168.80.133 "systemctl stop iptables"
+ssh -o StrictHostKeyChecking=no root@192.168.80.133 "systemctl disable iptables"
+```
   
 - Khởi động lại cả 03 node `Controller1, Compute1, Compute2`.
 
-  ```sh
-	ssh -o StrictHostKeyChecking=no root@192.168.80.132 "init 6"
+```sh
+ssh -o StrictHostKeyChecking=no root@192.168.80.132 "init 6"
 
-	ssh -o StrictHostKeyChecking=no root@192.168.80.133 "init 6"
+ssh -o StrictHostKeyChecking=no root@192.168.80.133 "init 6"
 
-	init 6
-  ```
+init 6
+```
 
 - Đăng nhập lại vào `Controller1` bằng quyền `root` và kiểm tra hoạt động của openstack sau khi cài.
-  - Khai báo biến môi trường
-    ```sh
-    source keystonerc_admin
-    ```
-  
-  - Kiểm tra hoạt động của openstack bằng lệnh dưới (`lưu ý: có thể phải mất vài phút để các service của OpenStack khởi động xong`).
-    ```sh
-    openstack token issue
-    ```
+
+- Khai báo biến môi trường
+
+```sh
+source keystonerc_admin
+```
+
+- Kiểm tra hoạt động của openstack bằng lệnh dưới (`lưu ý: có thể phải mất vài phút để các service của OpenStack khởi động xong`).
+
+```sh
+openstack token issue
+```
     
-  - Kết quả lệnh trên như sau:
-    ```sh
-    +------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-    | Field      | Value                                                                                                                                                                                   |
-    +------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-    | expires    | 2017-09-17T14:46:54+0000                                                                                                                                                                |
-    | id         | gAAAAABZvnzOyW6-0gJLN5_ZG5zRpj932wYO5EgfvTWdJzU6HYxI1UpAl5_EHvSpU4pA5KWWHzVQkmKBKx0Pex8ZVxcSdBZGCDiJYrNCOd--0fqi80MBQzQuAH7ODATgR2-ZM7Or41Rq1M4dwC1rTLLWoqtiHuY2qJus9OUapJwbDfAivWHYCAk |
-    | project_id | 2f8619d1fea2465cbe302eb74ed10d2e                                                                                                                                                        |
-    | user_id    | 4487225f20454467bf89e21c1a04e921                                                                                                                                                        |
-    +------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
-    ```
+- Kết quả lệnh trên như sau:
+
+```sh
++------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| Field      | Value                                                                                                                                                                                   |
++------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+| expires    | 2017-09-17T14:46:54+0000                                                                                                                                                                |
+| id         | gAAAAABZvnzOyW6-0gJLN5_ZG5zRpj932wYO5EgfvTWdJzU6HYxI1UpAl5_EHvSpU4pA5KWWHzVQkmKBKx0Pex8ZVxcSdBZGCDiJYrNCOd--0fqi80MBQzQuAH7ODATgR2-ZM7Or41Rq1M4dwC1rTLLWoqtiHuY2qJus9OUapJwbDfAivWHYCAk |
+| project_id | 2f8619d1fea2465cbe302eb74ed10d2e                                                                                                                                                        |
+| user_id    | 4487225f20454467bf89e21c1a04e921                                                                                                                                                        |
++------------+-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+
+```
 
 - Ngoài ra có thể kiểm tra thêm bằng cách lệnh khác: `openstack user list` ,  `openstack service list`, `openstack catalog list`
 
@@ -403,26 +405,26 @@ Sau đó mới chạy lệnh `packstack --answer-file rdotraloi.txt`
 - Đăng nhập vào node controller1 với quyền root và thực thi các lệnh sau
 - Tải images cirros. Images này dùng để tạo các máy ảo sau này: 
 
-  ```sh
-  wget http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
-  ```
+```sh
+wget http://download.cirros-cloud.net/0.3.5/cirros-0.3.5-x86_64-disk.img
+```
 
 - Tạo images 
 
-  ```sh
-  source keystonerc_admin
+```sh
+source keystonerc_admin
 
-  openstack image create "cirros" \
-    --file cirros-0.3.5-x86_64-disk.img \
-    --disk-format qcow2 --container-format bare \
-    --public
-  ```
+openstack image create "cirros" \
+	--file cirros-0.3.5-x86_64-disk.img \
+	--disk-format qcow2 --container-format bare \
+	--public
+```
 
 - Kiểm tra việc tạo images, kết quả như dưới là thành công. Nếu không có kết quả này thì chịu khó làm lại hoặc đọc log :) 
 
-  ```sh
-  openstack image list
-  ```
+```sh
+openstack image list
+```
 
 #### 4.2. Tạo network
 
@@ -430,37 +432,37 @@ Sau đó mới chạy lệnh `packstack --answer-file rdotraloi.txt`
 
 - Tạo provider network 
 
-	```sh 
-	openstack network create  --share --external \
-		--provider-physical-network extnet \
-		--provider-network-type flat net-provider
-	```
+```sh 
+openstack network create  --share --external \
+	--provider-physical-network extnet \
+	--provider-network-type flat net-provider
+```
 	
 - Taoh subnet cho provider network
 
-	```sh
-	openstack subnet create --network net-provider \
-		--allocation-pool start=192.168.84.201,end=192.168.84.219 \
-		--dns-nameserver 8.8.8.8 --gateway 192.168.84.1 \
-		--subnet-range 192.168.84.0/24 sub-net-provider	
-	```
+```sh
+openstack subnet create --network net-provider \
+	--allocation-pool start=192.168.84.201,end=192.168.84.219 \
+	--dns-nameserver 8.8.8.8 --gateway 192.168.84.1 \
+	--subnet-range 192.168.84.0/24 sub-net-provider	
+```
 
 ##### 4.2.2. Tạo private network 
 	
 - Tạo private network 
 
-	```sh
-	openstack network create net-selfservice
-	```
+```sh
+openstack network create net-selfservice
+```
 
 - Tạo subnet cho private network 
 
-	```sh 
-	openstack subnet create --network net-selfservice \
-		--dns-nameserver 8.8.4.4 --gateway 172.199.1.1 \
-		--subnet-range 172.199.1.0/24 sub-net-selfservice
-	```	
-	
+```sh 
+openstack subnet create --network net-selfservice \
+	--dns-nameserver 8.8.4.4 --gateway 172.199.1.1 \
+	--subnet-range 172.199.1.0/24 sub-net-selfservice
+```	
+
 ##### 4.2.3. Tạo router
 
 - Tạo router 
@@ -597,6 +599,7 @@ init 6
 ```
 
 - Khai báo repos cho OpenStack Train
+
 ```
 yum install -y epel-release
 yum install -y centos-release-openstack-train
@@ -608,6 +611,7 @@ yum install -y openstack-packstack
 ```
 
 - Sử dụng byobu để giữ phiên làm việc
+
 ```
 byobu
 ```	
