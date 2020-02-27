@@ -542,15 +542,6 @@ Approximate round trip times in milli-seconds:
 		Minimum = 15ms, Maximum = 17ms, Average = 15ms
 ```
 
-##### 4.4. Mở các rule về security group
-
-- Thực hiện mở các rule để có thể truy cập từ ngoài vào VM sau khi tạo xong VM ở các bước tiếp theo.
-
-```sh
-openstack security group rule create --proto icmp default
-openstack security group rule create --proto tcp --dst-port 22 default
-```
-
 ##### 4.5. Tạo VM	
 
 Cách 1: Truy cập vào dashboard ở địa chỉ http://192.168.80.131 để tạo VM.
@@ -588,8 +579,19 @@ Cách 2: Sử dụng lệnh dưới để tạo VM.
 | ID                                   | Name    | Description            | Project                          | Tags |
 +--------------------------------------+---------+------------------------+----------------------------------+------+
 | 8223ba89-0ba1-4f44-a9ca-46d281e775e3 | default | Default security group | 81bf2058bac74ce7978f76c609acc1d1 | []   |
+| a765123d-8be0-4728-8e2e-f27642f8bd28 | default | Default security group |                                  | []   |
 +--------------------------------------+---------+------------------------+----------------------------------+------+
 ```
+
+Nếu thấy có 02 security group thì xóa đi một dòng, hãy xóa dòng bị trống cột `Project` bằng lệnh `openstack security group ID_SECURYTI_GROUP`
+
+- Thực hiện mở các rule để có thể truy cập từ ngoài vào VM sau khi tạo xong VM ở các bước tiếp theo.
+
+```sh
+openstack security group rule create --proto icmp default
+openstack security group rule create --proto tcp --dst-port 22 default
+```
+
 
 - Kiểm tra các gói cấu hình bằng lệnh `openstack flavor list`, kết quả trả về các flavor (gói cấu hình). Lưu lại tên gói cấu hình để sử dụng cho bước tạo VM.
 
