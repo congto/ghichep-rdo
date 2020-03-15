@@ -832,3 +832,6 @@ Nếu muốn dùng linuxbridge thì tham khảo lệnh ở link này để tạo
 ```
 packstack --answer-file rdotraloi.txt
 ```
+
+Sau khi cài đặt xong, quay lại bước https://github.com/congto/ghichep-rdo/blob/master/docs/packstack_OpenStack_Train.md#4-t%E1%BA%A1o-images-network-subnet-router-m%E1%BB%9F-security-group-v%C3%A0-t%E1%BA%A1o-vm để tham khảo cách tạo máy ảo.
+
